@@ -1,0 +1,62 @@
+def Java = file("kingyea-gradle-scripts/Java.gradle")
+def MavenUpload = file("kingyea-gradle-scripts/MavenUpload.gradle")
+def Utils = file("kingyea-gradle-scripts/Utils.gradle")
+def Libraries = file("kingyea-gradle-scripts/Libraries.gradle")
+
+apply from: Java
+apply from: MavenUpload
+apply from: Libraries
+apply from: Utils
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'idea'
+
+group 'com.kingyea.bigdata.apple'
+version getVersion('1.0')
+
+buildscript {
+    ext {
+        if (System.properties.local != null) {
+            artifactory = {
+                mavenLocal()
+                jcenter()
+            }
+        } else {
+            artifactory = {
+                maven {
+                    credentials {
+                        username property('artifactory.username')
+                        password property('artifactory.password')
+                    }
+                    url property('artifactory.url')
+                }
+            }
+        }
+
+        springVersion = "1.5.8.RELEASE"
+    }
+
+    repositories artifactory
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springVersion}")
+    }
+}
+
+configurations {
+    all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+}
+
+dependencies {
+    // 公共部分
+    testCompile "junit:junit:4.12"
+    testCompile "org.mockito:mockito-core:1.9.5"
+
+    compile "org.json:json:20171018"
+    compile "com.google.guava:guava:23.5-jre"
+
+    // Version is managed by spring-boot-plugin
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.springframework.boot:spring-boot-devtools"
+}

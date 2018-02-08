@@ -1,0 +1,3 @@
+[submodule "server/kingyea-gradle-scripts"]
+	path = server/kingyea-gradle-scripts
+	url = http://192.168.0.201:12001/r/kingyea-gradle-scripts.git
