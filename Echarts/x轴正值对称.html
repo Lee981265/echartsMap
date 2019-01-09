@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body >
+       <div id="container" style="height:300px;margin-top:200px;"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script type="text/javascript">
+
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+app.title = '分类前后对比';
+
+option = {
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        },
+        formatter:function(params){ // 改鼠标悬浮提示值格式
+          
+            var relVal = params[0].name+"<br/>";
+            relVal += params[0].seriesName+ ' : ' + Math.abs(params[0].value) +"<br/>";
+            relVal += params[1].seriesName+ ' : ' +Math.abs(params[1].value)+"<br/>";
+            relVal += params[2].seriesName+ ' : ' +Math.abs(params[2].value)+"<br/>";
+            relVal += params[3].seriesName+ ' : ' +Math.abs(params[3].value)+"<br/>";
+            relVal += params[4].seriesName+ ' : ' +Math.abs(params[4].value)+"<br/>";
+            relVal += params[5].seriesName+ ' : ' +Math.abs(params[5].value)+"<br/>";
+            relVal += params[6].seriesName+ ' : ' +Math.abs(params[6].value)+"<br/>";
+         
+           
+            return relVal;
+        }
+    
+    },
+    color:['rgb(73, 169, 238)','rgb(152, 216, 125)','rgb(0, 153, 102)','rgb(0, 204, 204)','rgb(255, 153, 0)','rgb(255, 204, 0)','red'],
+    legend: {
+      
+        data:['应发工资','车辆租赁费','综合福利费','社保公积金','个税','租赁税','增加收益']
+
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'value',
+            axisLabel : { formatter: function (value){return Math.abs(value)}}
+
+        },
+       
+    ],
+    yAxis : [
+        {
+            type : 'category',
+            axisTick : {show: false},
+            data : ['分类前','分类后']
+        }
+    ],
+    series : [
+        {
+            name:'应发工资',
+            type:'bar',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'inside',
+                    formatter:function(v){return Math.abs(v.data)}
+                    
+                }
+            },
+            data:[200, 170]
+        },
+        {
+            name:'车辆租赁费',
+            type:'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    formatter:function(v){return Math.abs(v.data)}
+                }
+            },
+            
+            data:[320, 302]
+        },
+        {
+            name:'综合福利费',
+            type:'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'left',
+                    formatter:function(v){return Math.abs(v.data)}
+                }
+            },
+            data:[-120, -132]
+        },
+        {
+            name:'社保公积金',
+            type:'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'left',
+                    formatter:function(v){return Math.abs(v.data)}
+                }
+            },
+            data:[-120, -132]
+        },
+        {
+            name:'个税',
+            type:'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'left',
+                    formatter:function(v){return Math.abs(v.data)}
+                }
+            },
+            data:[-120, -132]
+        },
+        {
+            name:'租赁税',
+            type:'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'left',
+                    formatter:function(v){return Math.abs(v.data)}
+                }
+            },
+            data:[-120, -132]
+            
+        },
+        {
+            name:'增加收益',
+            type:'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'left',
+                    formatter:function(v){return Math.abs(v.data)}
+                }
+            },
+            data:[-120, -132]
+        },
+        {
+            name:'租赁税',
+            type:'bar',
+            stack: '总量',
+            label: {
+                normal: {
+                    show: true,
+                    position: 'left',
+                    formatter:function(v){return Math.abs(v.data)}
+                }
+            },
+            data:[-120, -132]
+        },
+    ]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>
